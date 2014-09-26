@@ -5,11 +5,12 @@
  */
 
 package monomonitoring;
-import static spark.Spark.*;
-import spark.*;
 import java.util.HashMap;
 import java.util.Map;
+import spark.*;
+import static spark.Spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
+import java.lang.Exception;
 /**
  *
  * @author hohuyhoang
@@ -18,12 +19,15 @@ public class MonoMonitoring {
 
     public static void main(String[] args) {
         staticFileLocation("/public");
-        
-        get("/hello", (request, response) -> {
-            Map<String, Object> att = new HashMap<>();
-            att.put("message", "hoang");
-            return new ModelAndView(att, "test.html");
-        }, new FreeMarkerEngine());
+        try {
+            get("/hello", (request, response) -> {
+                Map<String, Object> att = new HashMap<>();
+                att.put("message", "hoang");
+                System.out.println(1/0);
+                return new ModelAndView(att, "test.html");
+            }, new FreeMarkerEngine());
+        } catch (ExceptionInInitializerError e) {
+            System.out.println(e.getMessage());
+        }
     }
-    
 }
